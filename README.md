@@ -1,6 +1,8 @@
 ## About hook.io-gzbz2
 
-A hook to compress and uncompress files. Based on the the gzbz2 module.
+A hook to compress and uncompress files. Operates synchronously for now
+
+NOTE: Pull request making this asynchronous are very welcome as long as they work with huge (2+ gigabyte compressed) files.
 
 ![Gzbz2 Icon](http://github.com/scottyapp/hook.io-gzbz2/raw/master/assets/gzbz2114x114.png)
 
@@ -33,11 +35,17 @@ gzbz2::uncompress [in]
 
 gzbz2::error [out]
 
-	error: See examples/download-error.txt for content
+	code: code
+	source:
+	target:
+	mode:
 
 gzbz2::compress-complete [out]
 
-	target : The target file name.
+	code: code
+	source:
+	target:
+	mode:
 
 gzbz2::uncompress-complete [out]
 

@@ -6,6 +6,12 @@ specHelper = require './spec_helper'
 
 vows.describe("integration_task")
   .addBatch
+    "CLEANUP TEMP":
+      topic: () ->
+        specHelper.cleanTmpFiles ['test1.gz','test2.bz2','test3.txt','test4.txt']
+      "THEN IT SHOULD BE CLEAN :)": () ->
+        assert.isTrue true        
+  .addBatch
     "SETUP HOOK" :
       topic: () -> 
         specHelper.setup @callback

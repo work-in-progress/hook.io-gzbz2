@@ -1,4 +1,5 @@
 main = require '../lib/index'
+fs = require "fs"
 
 module.exports = 
   hook: null
@@ -11,9 +12,10 @@ module.exports =
   compressedBz2 : "afile.txt.bz2"
     
   setup: (cb) ->
+      
     @hook = new main.Gzbz2(name: 'gzbz2')
     @hook.onAny (data) =>
-      #console.log "ANY #{@hook.event} EatMe: #{@eatMe} HasCurrentCb: #{@currentCb != null}"
+      console.log "ANY #{@hook.event} EatMe: #{@eatMe} HasCurrentCb: #{@currentCb != null}"
       if @currentCb
         if @eatMe == 0
           @currentCb null,@hook.event, data
@@ -29,6 +31,12 @@ module.exports =
   tmpPath: (fileName) ->
     "#{__dirname}/../tmp/#{fileName}"
   
+  cleanTmpFiles: (fileNames) ->
+    for file in fileNames
+      try
+        fs.unlinkSync @tmpPath(file)
+      catch ignore
+    
   # Invoke this in your topic and pass your callback.
   # The cb will be called with: null,event,data
   # we passing null for err as the first parameter to stay true to node.js

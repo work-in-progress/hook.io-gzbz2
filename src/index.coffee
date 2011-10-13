@@ -1,8 +1,11 @@
 Hook = require('hook.io').Hook
-util = require('util')
-colors = require('colors')    
-gzbz2 = require 'gzbz2'
-url = require 'url'
+util = require 'util'
+colors = require 'colors'
+path = require 'path'
+#gzbz2 = require 'gzbz2'
+#sys = require 'sys'
+fs = require "fs"
+spawn = require("child_process").spawn
 
 require('pkginfo')(module,'version','hook')
   
@@ -31,40 +34,76 @@ Gzbz2 = exports.Gzbz2 = (options) ->
     
 util.inherits Gzbz2, Hook
 
-###
-Gzbz2.prototype._buildRequestOptions = (data) ->
-  options =
-    url : data.source
+Gzbz2.prototype._runCommand = (cmd,args,eventName,data) ->
+  fd = fs.openSync data.target, "w", 0644
 
-  # Need to check if the extence op is really necessary. 
-  options.uncompressers = if data.uncompressers? data.uncompressers else {}
-  options.nogzip = data.nogzip if data.nogzip?
-  options.proxy = data.proxy if data.proxy?
-  options.redirects = data.redirects if data.redirects?
+  zip = spawn(cmd,args)
+
+  zip.stdout.on "data", (data) =>
+    fs.writeSync fd, data, 0, data.length, null
+
+  zip.stderr.on "data", (data) =>
+    console.log "ERROR: #{data}"
   
-  # Hardcore auth fix
-  parsed = url.parse(data.source)
-  if parsed.auth
-    auth64 = new Buffer("#{parsed.auth}","utf8").toString('base64')  
-    options.uncompressers['Authorization'] = "Basic #{auth64}"
+  zip.on "exit", (code) =>
+    fs.closeSync fd
 
-    options.source = url.format
-      protocol : parsed.protocol
-      hostname :parsed.hostname
-      port : parsed.port
-      pathname :parsed.pathname
-      search :parsed.search
-      fragment :parsed.fragment
+    #console.log "EXIT #{code}"
+    if code != 0  
+     try
+        fs.unlinkSync data.target  # cleanup
+      catch ignore
       
-    #console.log "PARSED #{options.source}"
-  
-  options
-###
+      @emit "gzbz2::error", 
+        source: data.source
+        target: data.target
+        mode: data.mode
+        code: code
+    else    
+      @emit eventName, 
+        source: data.source
+        target: data.target
+        mode: data.mode
 
 Gzbz2.prototype._compress = (data) ->
   console.log "Compressing #{data.source} to #{data.target}".cyan
 
-  @emit "gzbz2::compress-complete", {}
+  data.mode = 'gzip' unless data.mode == 'bzip2'
+  
+  if data.target
+    data.target = path.normalize data.target
+    if data.mode == 'gzip'
+      @_runCommand "gzip",[ "-c", data.source ],"gzbz2::compress-complete",data
+    else
+      @_runCommand "bzip2",[ "-c", data.source ],"gzbz2::compress-complete",data    
+  else
+    # NOT SUPPORTED YET
+  
+  
+  ###
+
+
+  xx = fs.readFileSync data.source,"utf-8"
+  console.log "Read: #{xx.length}"
+
+  fd = fs.openSync data.target, "w", 0644
+  
+  gzip = new gzbz2.Gzip
+  # init also accepts level: [0-9]
+  gzip.init 
+
+  gzdata = gzip.deflate xx
+  fs.writeSync fd, gzdata, 0, gzdata.length, null
+
+  # Get the last bit
+  gzlast = gzip.end()
+  console.log "Compressed chunk size #{gzlast.length}"
+  fs.writeSync fd, gzlast, 0, gzlast.length, null
+  fs.closeSync fd
+###
+
+      
+
   
 ###
   options = @_buildRequestOptions data
