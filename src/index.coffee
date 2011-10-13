@@ -63,6 +63,8 @@ Gzbz2.prototype._buildRequestOptions = (data) ->
 
 Gzbz2.prototype._compress = (data) ->
   console.log "Compressing #{data.source} to #{data.target}".cyan
+
+  @emit "gzbz2::compress-complete", {}
   
 ###
   options = @_buildRequestOptions data
@@ -87,6 +89,8 @@ Gzbz2.prototype._compress = (data) ->
 
 Gzbz2.prototype._uncompress = (data) ->
   console.log "Uncompress for #{data.source}".cyan
+  @emit "gzbz2::uncompress-complete", {}
+  
 ###  
   options = @_buildRequestOptions data
   console.log options
