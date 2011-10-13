@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "colors" : "~ 0.5",
-    "gzbz2" : "~ 0.1.2",
     "hook.io" : "~ 0.7.7",
     "pkginfo" : "~ 0.2"    
   },

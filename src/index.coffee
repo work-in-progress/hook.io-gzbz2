@@ -2,8 +2,6 @@ Hook = require('hook.io').Hook
 util = require 'util'
 colors = require 'colors'
 path = require 'path'
-#gzbz2 = require 'gzbz2'
-#sys = require 'sys'
 fs = require "fs"
 spawn = require("child_process").spawn
 
@@ -77,29 +75,6 @@ Gzbz2.prototype._compress = (data) ->
     @_runCommand "bzip2",[ "-c", data.source ],"gzbz2::compress-complete",data    
 
       
-
-  
-###
-  options = @_buildRequestOptions data
-  console.log options
-  
-  httpget.get options ,data.target, (err,result) =>
-    if err
-      console.error err
-      @emit "gzbz2::error", 
-        error : err
-        uncompress : false
-    else
-      console.log result
-      @emit "gzbz2::compress-complete", 
-        code : result.code
-        pathToFile : if result.file? then result.file else null
-        #buffer : if result.buffer? result.buffer else null
-        uncompressers : result.uncompressers
-        requestedUrl : data.source
-        result : result
-###
-
 Gzbz2.prototype._uncompress = (data) ->
   console.log "Uncompress for #{data.source}".cyan
   
@@ -112,23 +87,3 @@ Gzbz2.prototype._uncompress = (data) ->
   else
     @_runCommand "bzip2",[ "-dc", data.source ],"gzbz2::uncompress-complete",data    
   
-  
-###  
-  options = @_buildRequestOptions data
-  console.log options
-  
-  httpget.uncompress options , (err,result) =>
-    if err
-      console.error err
-      @emit "gzbz2::error", 
-        error : err
-        uncompress : true
-    else
-      console.log result
-      @emit "gzbz2::uncompress-complete", 
-        code : result.code
-        uncompressers : result.uncompressers
-        requestedUrl : data.source
-        compressedUrl : if result.source? then result.source else data.source 
-        result : result
-###    

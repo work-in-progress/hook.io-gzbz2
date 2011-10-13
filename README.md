@@ -88,7 +88,7 @@ Listened to lots of M.I.A. and Soundgarden while writing this.
 # Publish new version
 
 * Change version in package.json
-* git tag -a v0.0.6 -m 'version 0.0.6'
+* git tag -a v0.0.1 -m 'version 0.0.1'
 * git push --tags
 * npm publish
 
