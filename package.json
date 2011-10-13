@@ -1,0 +1,85 @@
+{
+  "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
+  "name": "hook.io-gzbz2",
+  "description": "A hook to compress and uncompress. Uses node-gzbz2.",
+  "version": "0.0.1",
+  "main" : "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/scottyapp/hook.io-gzbz2.git"
+  },
+  "bin" : {
+    "hookio-gzbz2" : "./bin/hookio-gzbz2"
+  },
+  "directories" : {
+    "lib" : "./lib",
+    "test" : "./spec"
+  },
+  "keywords" : [
+    "hook.io","compress","uncompress","gzbz2","node-gzbz2","gzip","bzip2"
+  ],
+  "scripts": {
+    "test": "vows --spec spec/*-spec.coffee",
+    "watch" : "coffee -c -w  -o lib src"
+  },
+  "engines": {
+    "node": ">=0.4.8"
+  },
+  "dependencies": {
+    "colors" : "~ 0.5",
+    "gzbz2" : "~ 0.1.2",
+    "hook.io" : "~ 0.7.7",
+    "pkginfo" : "~ 0.2"    
+  },
+  "devDependencies": {
+    "underscore" : "1.2.x",
+    "async" : "0.1.x",
+    "should" : ">=0.2.1",    
+    "vows" : ">= 0.5.9"
+  },
+  "bugs": { "url": "http://github.com/scottyapp/hook.io-gzbz2/issues" },
+  "licenses": [
+    { "type": "MIT",
+      "url": "http://github.com/scottyapp/hook.io-gzbz2/raw/master/LICENSE"
+    }
+  ],
+  "hook" : {
+    "type" : "Gzbz2",
+    "description" : "Compress and uncompress files",
+    "images" : [
+        { 
+          "size" : "29x29",
+          "url" : "http://github.com/scottyapp/hook.io-gzbz2/raw/master/assets/gzbz229x29.png"
+        },
+        { 
+          "size" : "57x57",
+          "url" : "http://github.com/scottyapp/hook.io-gzbz2/raw/master/assets/gzbz257x57.png"
+        },
+        { 
+          "size" : "114x114",
+          "url" : "http://github.com/scottyapp/hook.io-gzbz2/raw/master/assets/gzbz2114x114.png"
+        }        
+      ],
+    
+    "in" : [{
+        "name" : "gzbz2::compress",
+        "signatures" : []
+      },{
+        "name" : "gzbz2::uncompress",
+        "signatures" : []
+      }
+    ],
+    
+    "out" : [{
+        "name" : "gzbz2::error",
+        "signatures" : []
+      },{
+        "name" : "gzbz2::compress-complete",
+        "signatures" : []
+      },{
+        "name" : "gzbz2::uncompress-complete",
+        "signatures" : []
+      }
+    ]
+  }
+}

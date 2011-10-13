@@ -1,0 +1,16 @@
+{
+  "compress" : [
+    {
+      "source" : "./afile.txt",
+      "target" : "./afile.txt.bz2" 
+      "mode" : "gzip"
+    }  
+  ],
+  
+  "uncompress" : [
+    {
+      "source" : "./afile.txt.bz2",
+      "target" : "./afile.txt",      
+    }  
+  ]
+}

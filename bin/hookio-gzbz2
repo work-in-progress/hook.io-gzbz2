@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+var Gzbz2 = require('../lib/index').Gzbz2;
+
+var hook = new Gzbz2({
+  name: 'gzbz2'
+});
+
+hook.start();
