@@ -13,10 +13,11 @@ module.exports =
   setup: (cb) ->
     @hook = new main.Gzbz2(name: 'gzbz2')
     @hook.onAny (data) =>
-      if @callback
+      #console.log "ANY #{@hook.event} EatMe: #{@eatMe} HasCurrentCb: #{@currentCb != null}"
+      if @currentCb
         if @eatMe == 0
-          @callback null,@hook.event, data
-          @callback = null
+          @currentCb null,@hook.event, data
+          @currentCb = null
         @eatMe = @eatMe - 1  
       
     @hook.start()
@@ -34,4 +35,4 @@ module.exports =
   # HookMeUp always eats the first message.
   hookMeUp: (cb) ->
     @currentCb = cb
-    @eatMe = 0
+    @eatMe = 1
