@@ -50,7 +50,7 @@ Gzbz2.prototype._runCommand = (cmd,args,eventName,data) ->
 
     #console.log "EXIT #{code}"
     if code != 0  
-     try
+      try
         fs.unlinkSync data.target  # cleanup
       catch ignore
       
@@ -70,37 +70,11 @@ Gzbz2.prototype._compress = (data) ->
 
   data.mode = 'gzip' unless data.mode == 'bzip2'
   
-  if data.target
-    data.target = path.normalize data.target
-    if data.mode == 'gzip'
-      @_runCommand "gzip",[ "-c", data.source ],"gzbz2::compress-complete",data
-    else
-      @_runCommand "bzip2",[ "-c", data.source ],"gzbz2::compress-complete",data    
+  data.target = path.normalize data.target
+  if data.mode == 'gzip'
+    @_runCommand "gzip",[ "-c", data.source ],"gzbz2::compress-complete",data
   else
-    # NOT SUPPORTED YET
-  
-  
-  ###
-
-
-  xx = fs.readFileSync data.source,"utf-8"
-  console.log "Read: #{xx.length}"
-
-  fd = fs.openSync data.target, "w", 0644
-  
-  gzip = new gzbz2.Gzip
-  # init also accepts level: [0-9]
-  gzip.init 
-
-  gzdata = gzip.deflate xx
-  fs.writeSync fd, gzdata, 0, gzdata.length, null
-
-  # Get the last bit
-  gzlast = gzip.end()
-  console.log "Compressed chunk size #{gzlast.length}"
-  fs.writeSync fd, gzlast, 0, gzlast.length, null
-  fs.closeSync fd
-###
+    @_runCommand "bzip2",[ "-c", data.source ],"gzbz2::compress-complete",data    
 
       
 
@@ -128,7 +102,16 @@ Gzbz2.prototype._compress = (data) ->
 
 Gzbz2.prototype._uncompress = (data) ->
   console.log "Uncompress for #{data.source}".cyan
-  @emit "gzbz2::uncompress-complete", {}
+  
+  data.mode = 'gzip' unless data.mode == 'bzip2'
+  
+  data.target = path.normalize data.target
+  
+  if data.mode == 'gzip'
+    @_runCommand "gunzip",[ "-c", data.source ],"gzbz2::uncompress-complete",data
+  else
+    @_runCommand "bzip2",[ "-dc", data.source ],"gzbz2::uncompress-complete",data    
+  
   
 ###  
   options = @_buildRequestOptions data

@@ -46,7 +46,7 @@ vows.describe("integration_task")
       topic:  () ->
         specHelper.hookMeUp @callback
         specHelper.hook.emit "gzbz2::uncompress",
-          source : specHelper.fixturePath(specHelper.uncompressed)
+          source : specHelper.fixturePath(specHelper.compressedGzip)
           target : specHelper.tmpPath("test3.txt")
           mode : 'gzip'
         return
@@ -59,7 +59,7 @@ vows.describe("integration_task")
         specHelper.hook.on "gzbz2::uncompress-complete", (data) =>
           @callback(null,data)
         specHelper.hook.emit "gzbz2::uncompress",
-          source : specHelper.fixturePath(specHelper.uncompressed)
+          source : specHelper.fixturePath(specHelper.compressedBz2)
           target : specHelper.tmpPath("test4.txt")
           mode : 'bzip2'
         return
