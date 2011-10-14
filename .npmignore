@@ -1,7 +1,6 @@
 support
-test
-spec
 assets
 assets_source
-examples
 tmp
+.DS_Store
+config.json
