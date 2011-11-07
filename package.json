@@ -2,7 +2,7 @@
   "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
   "name": "hook.io-gzbz2",
   "description": "A hook to compress and uncompress. Operates synchronously for now.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main" : "lib/index.js",
   "repository": {
     "type": "git",
