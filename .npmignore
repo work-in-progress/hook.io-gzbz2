@@ -1,6 +1,5 @@
 support
-assets
-assets_source
 tmp
 .DS_Store
 config.json
+*.log

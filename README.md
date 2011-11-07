@@ -67,15 +67,26 @@ The package config contains experimental hook.io schema definitions. The definit
 
 ## Advertising :)
 
-Check out http://freshfugu.com and http://scottyapp.com
+Check out 
 
-Follow us on Twitter at @getscottyapp and @freshfugu and like us on Facebook please. Every mention is welcome and we follow back.
+* http://scottyapp.com
+
+Follow us on Twitter at 
+
+* @getscottyapp
+* @martin_sunset
+
+and like us on Facebook please. Every mention is welcome and we follow back.
 
 ## Trivia
 
 Listened to lots of M.I.A. and Soundgarden while writing this.
 
 ## Release Notes
+
+### 0.0.2
+
+* Minor cleanups, including coffee-script beautification
 
 ### 0.0.1
 
@@ -88,7 +99,7 @@ Listened to lots of M.I.A. and Soundgarden while writing this.
 # Publish new version
 
 * Change version in package.json
-* git tag -a v0.0.1 -m 'version 0.0.1'
+* git tag -a v0.0.2 -m 'version 0.0.2'
 * git push --tags
 * npm publish
 

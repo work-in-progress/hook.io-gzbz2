@@ -19,7 +19,7 @@
     "hook.io","compress","uncompress","gzbz2","node-gzbz2","gzip","bzip2"
   ],
   "scripts": {
-    "test": "vows --spec spec/*-spec.coffee",
+    "test": "node_modules/.bin/vows --spec spec/*-spec.coffee",
     "watch" : "coffee -c -w  -o lib src"
   },
   "engines": {
@@ -33,7 +33,8 @@
   "devDependencies": {
     "underscore" : "1.2.x",
     "async" : "0.1.x",
-    "should" : ">=0.2.1",    
+    "should" : ">=0.2.1",
+    "coffee-script" : ">= 1.1.2",     
     "vows" : ">= 0.5.9"
   },
   "bugs": { "url": "http://github.com/scottyapp/hook.io-gzbz2/issues" },
