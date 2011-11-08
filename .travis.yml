@@ -1,6 +1,2 @@
 before_script: "npm install --dev"
 script: "npm test"
-language: node_js
-nodejs: 
-  - 0.4.12
-  - 0.5.8
