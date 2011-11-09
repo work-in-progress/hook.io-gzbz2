@@ -12,7 +12,7 @@ module.exports =
   compressedBz2 : "afile.txt.bz2"
     
   setup: (cb) ->
-      
+    @createTemp()
     @hook = new main.Gzbz2(name: 'gzbz2')
     @hook.onAny (data) =>
       console.log "ANY #{@hook.event} EatMe: #{@eatMe} HasCurrentCb: #{@currentCb != null}"
@@ -25,6 +25,12 @@ module.exports =
     @hook.start()
     cb null,@hook
     
+  createTemp: ->
+    try
+      fs.mkdirSync "#{__dirname}/../tmp/",0755
+    catch ignore
+      console.log "Failed to create tmp folder #{ignore}"
+    
   fixturePath: (fileName) ->
     "#{__dirname}/fixtures/#{fileName}"
 
@@ -32,6 +38,7 @@ module.exports =
     "#{__dirname}/../tmp/#{fileName}"
   
   cleanTmpFiles: (fileNames) ->
+    @createTemp()
     for file in fileNames
       try
         fs.unlinkSync @tmpPath(file)
